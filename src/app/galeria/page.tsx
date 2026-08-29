@@ -1,24 +1,26 @@
 import type { Metadata } from "next";
-import { ImageIcon } from "lucide-react";
+import pool, { initDb } from "@/lib/db";
 
 export const metadata: Metadata = { title: "Galeria | Legião Mirim de Bastos" };
+export const revalidate = 60;
 
-const albuns = [
-  {
-    titulo: "Conheça a Entidade",
-    desc: "Nosso espaço físico — salas de aula, refeitório, coordenação e estrutura completa.",
-    fotos: 13,
-    capa: null,
-  },
-  {
-    titulo: "Atividades",
-    desc: "Palestras, reuniões, eventos e momentos do dia a dia do programa.",
-    fotos: 0,
-    capa: null,
-  },
-];
+async function getAlbuns() {
+  try {
+    await initDb();
+    const albuns = await pool.query("SELECT * FROM albuns ORDER BY created_at ASC");
+    const fotos = await pool.query("SELECT * FROM fotos ORDER BY created_at DESC");
+    return albuns.rows.map((a: { id: string; nome: string }) => ({
+      ...a,
+      fotos: fotos.rows.filter((f: { album_id: string }) => f.album_id === a.id),
+    }));
+  } catch {
+    return [];
+  }
+}
 
-export default function Galeria() {
+export default async function Galeria() {
+  const albuns = await getAlbuns();
+
   return (
     <>
       <section style={{ backgroundColor: "var(--color-azul-escuro)" }} className="py-16 px-4 relative overflow-hidden">
@@ -30,28 +32,44 @@ export default function Galeria() {
       </section>
 
       <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid sm:grid-cols-2 gap-6">
-            {albuns.map(({ titulo, desc, fotos }) => (
-              <div
-                key={titulo}
-                className="rounded-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow cursor-pointer group"
-              >
-                {/* Placeholder da capa */}
-                <div
-                  className="h-48 flex items-center justify-center"
-                  style={{ backgroundColor: "var(--color-cinza-claro)" }}
-                >
-                  <ImageIcon size={40} style={{ color: "var(--color-azul)" }} className="opacity-30 group-hover:opacity-60 transition-opacity" />
+        <div className="max-w-6xl mx-auto px-4 space-y-16">
+          {albuns.length === 0 && (
+            <p className="text-center font-body text-gray-400 py-16">Nenhuma foto publicada ainda.</p>
+          )}
+          {albuns.map((album: { id: string; nome: string; fotos: { id: string; nome: string; filename: string; album_id: string }[] }) => (
+            <div key={album.id}>
+              <h2 className="font-display font-black text-2xl mb-6" style={{ color: "var(--color-azul-escuro)" }}>
+                {album.nome}
+                <span className="font-body font-normal text-sm text-gray-400 ml-3">{album.fotos.length} foto{album.fotos.length !== 1 ? "s" : ""}</span>
+              </h2>
+
+              {album.fotos.length === 0 ? (
+                <p className="font-body text-sm text-gray-400">Nenhuma foto neste álbum ainda.</p>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {album.fotos.map((f) => (
+                    <a
+                      key={f.id}
+                      href={`/api/files/galeria/${f.album_id}/${f.filename}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group relative rounded-sm overflow-hidden border border-gray-100 hover:shadow-md transition-shadow"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/api/files/galeria/${f.album_id}/${f.filename}`}
+                        alt={f.nome}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="font-body text-xs text-white truncate">{f.nome}</p>
+                      </div>
+                    </a>
+                  ))}
                 </div>
-                <div className="p-6">
-                  <h2 className="font-display font-black text-xl mb-1" style={{ color: "var(--color-azul-escuro)" }}>{titulo}</h2>
-                  <p className="font-body text-sm text-gray-500 mb-3">{desc}</p>
-                  <p className="font-body text-xs text-gray-400">{fotos > 0 ? `${fotos} fotos` : "Em breve"}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
     </>
