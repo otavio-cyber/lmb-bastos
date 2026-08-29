@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-azul:        #1B3FA0;
+  --color-azul-escuro: #0D2460;
+  --color-azul-medio:  #2650C8;
+  --color-amarelo:     #F5C800;
+  --color-amarelo-claro: #FFF3B0;
+  --color-cinza-claro: #F4F6FB;
+  --color-texto:       #0D2460;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'Inter', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--color-texto);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── utilitários globais ── */
+.font-display { font-family: 'Barlow Condensed', sans-serif; }
+.font-body    { font-family: 'Inter', sans-serif; }
+
+/* Animação de entrada */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.6s ease both; }
+.fade-up-delay-1 { animation-delay: 0.15s; }
+.fade-up-delay-2 { animation-delay: 0.3s; }
+.fade-up-delay-3 { animation-delay: 0.45s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { animation: none; }
+}
