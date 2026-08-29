@@ -31,12 +31,23 @@ export default function Home() {
     <>
       {/* ── HERO ── */}
       <section
-        style={{ backgroundColor: "var(--color-azul-escuro)" }}
         className="relative overflow-hidden min-h-[88vh] flex items-center"
+        style={{
+          backgroundImage: "url('/lmb-hero.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
+        {/* Overlay azul escuro */}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: "rgba(13, 36, 96, 0.82)" }}
+          aria-hidden="true"
+        />
+
         {/* Número gigante de fundo — assinatura visual */}
         <span
-          className="font-display font-black absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none leading-none"
+          className="font-display font-black absolute top-1/2 -translate-y-1/2 select-none pointer-events-none leading-none"
           style={{
             fontSize: "clamp(180px, 28vw, 340px)",
             color: "rgba(255,255,255,0.04)",
@@ -171,17 +182,11 @@ export default function Home() {
             Há mais de 22 anos, a Legião Mirim de Bastos abre portas para jovens que precisam de uma chance. Nossa missão vai além de ensinar uma profissão — acreditamos que cada adolescente que passa por aqui leva consigo valores, confiança e um futuro mais digno.
           </blockquote>
           <div className="flex items-center justify-center gap-3">
-            <div
-              className="w-10 h-px"
-              style={{ backgroundColor: "var(--color-amarelo)" }}
-            />
+            <div className="w-10 h-px" style={{ backgroundColor: "var(--color-amarelo)" }} />
             <p className="font-body text-sm" style={{ color: "var(--color-amarelo)" }}>
               Magda Vieira dos Santos — Presidente
             </p>
-            <div
-              className="w-10 h-px"
-              style={{ backgroundColor: "var(--color-amarelo)" }}
-            />
+            <div className="w-10 h-px" style={{ backgroundColor: "var(--color-amarelo)" }} />
           </div>
         </div>
       </section>
@@ -220,9 +225,9 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-4">
             {[
               { icon: GraduationCap, tit: "Formação teórica", sub: "402 horas em sala de aula" },
-              { icon: Building2,    tit: "Prática na empresa", sub: "880 horas com CTPS assinada" },
-              { icon: Users,        tit: "13 cursos/CBO", sub: "Assistente, Almoxarife e mais" },
-              { icon: Heart,        tit: "Inclusão social", sub: "Cidadania e valores éticos" },
+              { icon: Building2, tit: "Prática na empresa", sub: "880 horas com CTPS assinada" },
+              { icon: Users, tit: "13 cursos/CBO", sub: "Assistente, Almoxarife e mais" },
+              { icon: Heart, tit: "Inclusão social", sub: "Cidadania e valores éticos" },
             ].map(({ icon: Icon, tit, sub }) => (
               <div
                 key={tit}
