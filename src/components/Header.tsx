@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const nav = [
   { href: "/", label: "Início" },
@@ -19,15 +20,19 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
         {/* Logo + nome */}
         <Link href="/" className="flex items-center gap-3">
-          {/* Placeholder logo — substituir por <Image> com o PNG real */}
-          <div style={{ backgroundColor: "var(--color-amarelo)" }} className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm" aria-label="Logo LMB">
-            LMB
-          </div>
-          <span className="font-display font-bold text-white text-lg leading-tight hidden sm:block">
-            Legião Mirim<br />
-            <span style={{ color: "var(--color-amarelo)" }}>de Bastos</span>
-          </span>
-        </Link>
+  <Image
+    src="/lmb-logo.png"
+    alt="Logo Legião Mirim de Bastos"
+    width={44}
+    height={44}
+    className="rounded-full"
+    priority
+  />
+  <span className="font-display font-bold text-white text-lg leading-tight hidden sm:block">
+    Legião Mirim<br />
+    <span style={{ color: "var(--color-amarelo)" }}>de Bastos</span>
+  </span>
+</Link>
 
         {/* Nav desktop */}
         <nav className="hidden md:flex items-center gap-1">
