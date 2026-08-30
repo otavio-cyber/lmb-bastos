@@ -6,11 +6,12 @@ import path from 'path';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 
+const MAX_SIZE_MB = 10;
+const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+
 export async function GET() {
   await initDb();
-  const result = await pool.query(
-    'SELECT * FROM documentos ORDER BY created_at DESC'
-  );
+  const result = await pool.query('SELECT * FROM documentos ORDER BY created_at DESC');
   return NextResponse.json(result.rows);
 }
 
@@ -32,12 +33,18 @@ export async function POST(req: NextRequest) {
   }
 
   if (file.type !== 'application/pdf') {
-    return NextResponse.json({ error: 'Apenas PDFs são aceitos' }, { status: 400 });
+    return NextResponse.json({ error: 'Apenas arquivos PDF são aceitos' }, { status: 400 });
+  }
+
+  if (file.size > MAX_SIZE_BYTES) {
+    return NextResponse.json(
+      { error: `Arquivo muito grande. Limite: ${MAX_SIZE_MB}MB (enviado: ${(file.size / 1024 / 1024).toFixed(1)}MB)` },
+      { status: 413 }
+    );
   }
 
   const dir = ensureDir('documentos');
-  const ext = path.extname(file.name);
-  const filename = `${uuidv4()}${ext}`;
+  const filename = `${uuidv4()}.pdf`;
   const filepath = path.join(dir, filename);
 
   const buffer = Buffer.from(await file.arrayBuffer());

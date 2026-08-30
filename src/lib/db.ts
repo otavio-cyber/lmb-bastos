@@ -12,6 +12,13 @@ export default pool;
 
 export async function initDb() {
   await pool.query(`
+    CREATE TABLE IF NOT EXISTS categorias_doc (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      nome TEXT NOT NULL UNIQUE,
+      ordem INT DEFAULT 0,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
     CREATE TABLE IF NOT EXISTS documentos (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       nome TEXT NOT NULL,
@@ -35,7 +42,19 @@ export async function initDb() {
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
-    INSERT INTO albuns (nome) VALUES ('Conheça a Entidade') ON CONFLICT DO NOTHING;
-    INSERT INTO albuns (nome) VALUES ('Atividades') ON CONFLICT DO NOTHING;
+    -- Categorias padrão
+    INSERT INTO categorias_doc (nome, ordem) VALUES
+      ('Estatuto Social', 1),
+      ('Ata de Eleição', 2),
+      ('Convênio', 3),
+      ('Relatório Financeiro', 4),
+      ('Outro', 99)
+    ON CONFLICT DO NOTHING;
+
+    -- Álbuns padrão
+    INSERT INTO albuns (nome) VALUES
+      ('Conheça a Entidade'),
+      ('Atividades')
+    ON CONFLICT DO NOTHING;
   `);
 }
