@@ -66,13 +66,13 @@ export default function Contato() {
           <div className="rounded-sm overflow-hidden border border-gray-100 min-h-72">
             <iframe
               title="Localização Legião Mirim de Bastos"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.0!2d-50.7320!3d-21.7240!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDQzJzI2LjQiUyA1MMKwNDMnNTUuMiJX!5e0!3m2!1spt!2sbr!4v1"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3701.363340595822!2d-50.72253282540651!3d-21.92057910336965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94943462a195d609%3A0x19bfc92f3504cedc!2sR.%20Yoshiharu%20Haru%2C%2085%2C%20Bastos%20-%20SP%2C%2017690-000!5e0!3m2!1spt-BR!2sbr!4v1788186477642!5m2!1spt-BR!2sbr"
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: "320px" }}
               allowFullScreen
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+              referrerPolicy="strict-origin-when-cross-origin"
             />
           </div>
 

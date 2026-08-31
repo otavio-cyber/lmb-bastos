@@ -64,7 +64,7 @@ export default function Footer() {
       <div style={{ borderColor: "var(--color-azul)" }} className="border-t">
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/30">
           <span>© {new Date().getFullYear()} Legião Mirim de Bastos. Todos os direitos reservados.</span>
-          <span>Desenvolvido por <span className="text-white/50 font-medium">DUO Comunicação e Marketing</span></span>
+          <span>Desenvolvido por <a href="https://www.instagram.com/duomarketingoficial/" target="_blank" rel="noreferrer" className="text-white/50 font-medium hover:text-white/80 transition-colors">DUO Comunicação e Marketing</a></span>
         </div>
       </div>
     </footer>
