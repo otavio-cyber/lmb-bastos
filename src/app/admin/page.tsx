@@ -67,8 +67,8 @@ export default function Admin() {
   const [albuns, setAlbuns] = useState<Album[]>([]);
   const [albumSelecionado, setAlbumSelecionado] = useState("");
   const [novoAlbum, setNovoAlbum] = useState("");
-  const [fotoNome, setFotoNome] = useState("");
-  const [fotoFile, setFotoFile] = useState<File | null>(null);
+  const [fotoFiles, setFotoFiles] = useState<File[]>([]);
+  const [uploadProgress, setUploadProgress] = useState<string>("");
   const fotoRef = useRef<HTMLInputElement>(null);
 
   function showToast(msg: string, tipo: "ok" | "erro" = "ok") {
@@ -192,27 +192,41 @@ export default function Admin() {
     setNovoAlbum(""); showToast("Álbum criado!"); loadAlbuns();
   }
 
-  async function uploadFoto(e: React.FormEvent) {
+  async function uploadFotos(e: React.FormEvent) {
     e.preventDefault();
-    if (!fotoFile || !albumSelecionado) return;
-    if (fotoFile.size > MAX_MB * 1024 * 1024) {
-      showToast(`Foto muito grande. Máximo ${MAX_MB}MB.`, "erro"); return;
+    if (!fotoFiles.length || !albumSelecionado) return;
+
+    const oversized = fotoFiles.filter(f => f.size > MAX_MB * 1024 * 1024);
+    if (oversized.length > 0) {
+      showToast(`${oversized.length} foto(s) excedem ${MAX_MB}MB e foram ignoradas.`, "erro");
     }
+
+    const valid = fotoFiles.filter(f => f.size <= MAX_MB * 1024 * 1024);
+    if (!valid.length) return;
+
     setLoading(true);
-    const fd = new FormData();
-    fd.append("file", fotoFile);
-    fd.append("album_id", albumSelecionado);
-    fd.append("nome", fotoNome || fotoFile.name);
-    const res = await fetch("/api/galeria", { method: "POST", body: fd });
-    if (res.ok) {
-      showToast("Foto enviada!");
-      setFotoNome(""); setFotoFile(null);
-      if (fotoRef.current) fotoRef.current.value = "";
-      loadAlbuns();
-    } else {
-      const d = await res.json();
-      showToast(d.error || "Erro ao enviar", "erro");
+    let ok = 0;
+    let fail = 0;
+
+    for (let i = 0; i < valid.length; i++) {
+      const file = valid[i];
+      setUploadProgress(`Enviando ${i + 1} de ${valid.length}…`);
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("album_id", albumSelecionado);
+      fd.append("nome", file.name.replace(/\.[^/.]+$/, ""));
+      const res = await fetch("/api/galeria", { method: "POST", body: fd });
+      if (res.ok) ok++; else fail++;
     }
+
+    setUploadProgress("");
+    setFotoFiles([]);
+    if (fotoRef.current) fotoRef.current.value = "";
+    loadAlbuns();
+
+    if (fail === 0) showToast(`${ok} foto${ok > 1 ? "s" : ""} enviada${ok > 1 ? "s" : ""} com sucesso!`);
+    else showToast(`${ok} enviada(s), ${fail} com erro.`, fail > 0 && ok === 0 ? "erro" : "ok");
+
     setLoading(false);
   }
 
@@ -455,26 +469,32 @@ export default function Admin() {
               <h2 className="font-display font-black text-xl mb-2" style={{ color: "var(--color-azul-escuro)" }}>
                 Adicionar fotos — {albumAtual?.nome}
               </h2>
-              <InfoUpload aceita="JPG, PNG, WEBP" limite={`${MAX_MB}MB`} />
-              <form onSubmit={uploadFoto} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="font-body text-xs text-gray-500 block mb-1">Descrição (opcional)</label>
-                    <input value={fotoNome} onChange={e => setFotoNome(e.target.value)}
-                      className="w-full border border-gray-200 rounded-sm px-3 py-2 text-sm font-body focus:outline-none focus:border-blue-400"
-                      placeholder="Ex: Sala de aula 1" />
-                  </div>
-                  <div>
-                    <label className="font-body text-xs text-gray-500 block mb-1">Foto * (máx. {MAX_MB}MB)</label>
-                    <input ref={fotoRef} type="file" accept="image/jpeg,image/png,image/webp"
-                      onChange={e => setFotoFile(e.target.files?.[0] || null)} required
-                      className="w-full text-sm font-body text-gray-500 cursor-pointer" />
-                  </div>
+              <InfoUpload aceita="JPG, PNG, WEBP · Múltiplos arquivos de uma vez" limite={`${MAX_MB}MB por foto`} />
+              <form onSubmit={uploadFotos} className="space-y-4">
+                <div>
+                  <label className="font-body text-xs text-gray-500 block mb-1">
+                    Selecione as fotos * — segure <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Ctrl</kbd> ou <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Shift</kbd> para selecionar várias
+                  </label>
+                  <input
+                    ref={fotoRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    onChange={e => setFotoFiles(Array.from(e.target.files || []))}
+                    required
+                    className="w-full text-sm font-body text-gray-500 cursor-pointer"
+                  />
+                  {fotoFiles.length > 0 && (
+                    <p className="font-body text-xs text-gray-400 mt-1">
+                      {fotoFiles.length} foto{fotoFiles.length > 1 ? "s" : ""} selecionada{fotoFiles.length > 1 ? "s" : ""} · {(fotoFiles.reduce((a, f) => a + f.size, 0) / 1024 / 1024).toFixed(1)}MB total
+                    </p>
+                  )}
                 </div>
-                <button type="submit" disabled={loading || !albumSelecionado}
+                <button type="submit" disabled={loading || !albumSelecionado || !fotoFiles.length}
                   className="flex items-center gap-2 px-6 py-2.5 font-display font-bold text-sm rounded-sm text-white disabled:opacity-50"
                   style={{ backgroundColor: "var(--color-azul)" }}>
-                  <Upload size={15} /> {loading ? "Enviando..." : "Enviar foto"}
+                  <Upload size={15} />
+                  {loading ? uploadProgress || "Enviando..." : `Enviar ${fotoFiles.length > 1 ? `${fotoFiles.length} fotos` : "foto"}`}
                 </button>
               </form>
             </div>
