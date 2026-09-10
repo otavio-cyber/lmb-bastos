@@ -16,6 +16,10 @@ export default function Footer() {
             Associação de caráter assistencial, educacional e filantrópico.<br />
             Mantenedor: Lions Clube de Bastos Solidariedade.
           </p>
+          <p className="text-sm text-white/60 mt-3">
+            <span className="text-white/40 text-xs uppercase tracking-wide block mb-1">Horário de atendimento</span>
+            Segunda a sexta — 07h às 16h30
+          </p>
         </div>
 
         {/* Links */}
