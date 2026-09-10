@@ -3,7 +3,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = { title: "Quem Somos | Legião Mirim de Bastos" };
 
 const diretoria = [
-  { cargo: "Presidente", nome: "Magda Vieira dos Santos" },
+  {
+    cargo: "Presidente",
+    nome: "Magda Vieira dos Santos",
+    detalhe: "Gestões 2024/2025 · 2025/2026 · 2026/2027",
+    obs: "Membro do Lions Clube de Bastos Solidariedade — Mantenedor",
+  },
   { cargo: "1ª Diretora Presidente", nome: "Janaine Luiz Rosa Freitas Pereira Guanais" },
   { cargo: "2ª Diretora Presidente", nome: "Alessandra de Oliveira Segura Pereira" },
   { cargo: "Diretora Tesoureira", nome: "Cássia Tanaka" },
@@ -17,21 +22,10 @@ export default function QuemSomos() {
     <>
       {/* Hero */}
       <section style={{ backgroundColor: "var(--color-azul-escuro)" }} className="py-16 px-4 relative overflow-hidden">
-        <div
-          className="absolute right-0 top-0 bottom-0 w-2"
-          style={{ backgroundColor: "var(--color-amarelo)" }}
-          aria-hidden="true"
-        />
+        <div className="absolute right-0 top-0 bottom-0 w-2" style={{ backgroundColor: "var(--color-amarelo)" }} aria-hidden="true" />
         <div className="max-w-4xl mx-auto">
-          <p className="font-display font-semibold text-xs tracking-[0.2em] uppercase mb-3" style={{ color: "var(--color-amarelo)" }}>
-            Nossa história
-          </p>
-          <h1
-            className="font-display font-black text-white leading-tight"
-            style={{ fontSize: "clamp(36px, 6vw, 72px)" }}
-          >
-            Quem Somos
-          </h1>
+          <p className="font-display font-semibold text-xs tracking-[0.2em] uppercase mb-3" style={{ color: "var(--color-amarelo)" }}>Nossa história</p>
+          <h1 className="font-display font-black text-white leading-tight" style={{ fontSize: "clamp(36px, 6vw, 72px)" }}>Quem Somos</h1>
         </div>
       </section>
 
@@ -59,7 +53,7 @@ export default function QuemSomos() {
             >
               <p className="font-display font-black text-5xl mb-1" style={{ color: "var(--color-azul-escuro)" }}>2002</p>
               <p className="font-body text-sm text-gray-500 mb-6">Ano de fundação</p>
-              <p className="font-display font-black text-5xl mb-1" style={{ color: "var(--color-azul-escuro)" }}>+22</p>
+              <p className="font-display font-black text-5xl mb-1" style={{ color: "var(--color-azul-escuro)" }}>+24</p>
               <p className="font-body text-sm text-gray-500 mb-6">Anos de atuação</p>
               <p className="font-display font-black text-5xl mb-1" style={{ color: "var(--color-azul-escuro)" }}>13</p>
               <p className="font-body text-sm text-gray-500 mb-6">Empresas parceiras ativas</p>
@@ -75,22 +69,25 @@ export default function QuemSomos() {
       {/* Diretoria */}
       <section style={{ backgroundColor: "var(--color-cinza-claro)" }} className="py-20">
         <div className="max-w-4xl mx-auto px-4">
-          <h2
-            className="font-display font-black mb-2"
-            style={{ fontSize: "clamp(24px, 4vw, 40px)", color: "var(--color-azul-escuro)" }}
-          >
+          <h2 className="font-display font-black mb-2" style={{ fontSize: "clamp(24px, 4vw, 40px)", color: "var(--color-azul-escuro)" }}>
             Diretoria Executiva
           </h2>
           <p className="font-body text-sm text-gray-500 mb-10">Gestão 2026 / 2027</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {diretoria.map(({ cargo, nome }) => (
+            {diretoria.map(({ cargo, nome, detalhe, obs }) => (
               <div
                 key={nome}
-                className="bg-white rounded-sm p-5 flex flex-col gap-1 border-l-4"
+                className={`bg-white rounded-sm p-5 flex flex-col gap-1 border-l-4 ${detalhe ? 'sm:col-span-2' : ''}`}
                 style={{ borderColor: "var(--color-azul)" }}
               >
                 <p className="font-body text-xs text-gray-400 uppercase tracking-wide">{cargo}</p>
                 <p className="font-display font-bold text-base" style={{ color: "var(--color-azul-escuro)" }}>{nome}</p>
+                {detalhe && (
+                  <p className="font-body text-xs mt-1" style={{ color: "var(--color-azul)" }}>{detalhe}</p>
+                )}
+                {obs && (
+                  <p className="font-body text-xs text-gray-400 italic">{obs}</p>
+                )}
               </div>
             ))}
           </div>

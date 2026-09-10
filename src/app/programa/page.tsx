@@ -53,9 +53,9 @@ export default function Programa() {
           {/* Carga horária */}
           <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { val: "402h", label: "Formação teórica", desc: "Realizada na Legião Mirim de Bastos, de seg. a sex." },
-              { val: "880h", label: "Prática na empresa", desc: "4h diárias na empresa parceira, durante 11 meses" },
-              { val: "1.282h", label: "Total de formação", desc: "Carga horária completa por contrato de aprendizagem" },
+              { val: "402h", label: "Formação teórica", desc: "Realizada na Legião Mirim de Bastos" },
+              { val: "880h", label: "Prática na empresa", desc: "Com CTPS assinada e direitos garantidos" },
+              { val: "1.282h", label: "Total de formação", desc: "Em 11 meses de contrato de aprendizagem" },
             ].map(({ val, label, desc }) => (
               <div key={val} className="rounded-sm p-6 text-center" style={{ backgroundColor: "var(--color-azul)", color: "white" }}>
                 <p className="font-display font-black text-5xl mb-1" style={{ color: "var(--color-amarelo)" }}>{val}</p>
@@ -70,7 +70,8 @@ export default function Programa() {
       {/* Cursos */}
       <section style={{ backgroundColor: "var(--color-cinza-claro)" }} className="py-20">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="font-display font-black mb-10" style={{ fontSize: "clamp(24px, 4vw, 40px)", color: "var(--color-azul-escuro)" }}>Cursos oferecidos</h2>
+          <h2 className="font-display font-black mb-2" style={{ fontSize: "clamp(24px, 4vw, 40px)", color: "var(--color-azul-escuro)" }}>4 Cursos oferecidos</h2>
+          <p className="font-body text-sm text-gray-500 mb-10">Programa de Aprendizagem Profissional — conforme diretrizes do Ministério do Trabalho e Emprego</p>
           <div className="grid sm:grid-cols-2 gap-6">
             {cursos.map(({ cbo, titulo, modulos }) => (
               <div key={cbo} className="bg-white rounded-sm p-6 border-t-4" style={{ borderColor: "var(--color-azul)" }}>

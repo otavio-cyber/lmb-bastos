@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, Users, Building2, GraduationCap, Heart } from "lucide-react";
+import { ArrowRight, Users, Building2, GraduationCap, Heart, FileText, Image } from "lucide-react";
 
 const numeros = [
-  { valor: "22", label: "anos de história" },
+  { valor: "24", label: "anos de história" },
   { valor: "13", label: "empresas parceiras" },
   { valor: "1.282h", label: "de formação por turma" },
   { valor: "15–24", label: "anos, sua faixa de impacto" },
@@ -12,17 +12,17 @@ const valores = [
   {
     icon: Heart,
     titulo: "Missão",
-    texto: "Resgatar adolescentes em situação de vulnerabilidade social, fortalecendo relações familiares e comunitárias e garantindo a efetivação de seus direitos e da cidadania.",
+    texto: "Promover a formação profissional, pessoal e cidadã de adolescentes e jovens, preparando-os para o mercado de trabalho e para uma participação ativa e responsável na sociedade.",
   },
   {
     icon: GraduationCap,
     titulo: "Visão",
-    texto: "Ser reconhecida pela excelência no serviço sócio-assistencial e educativo prestado à comunidade de Bastos e região.",
+    texto: "Ser referência na formação e inserção de adolescentes e jovens no mundo do trabalho, contribuindo para a construção de um futuro mais inclusivo, ético e promissor.",
   },
   {
     icon: Users,
     titulo: "Valores",
-    texto: "Valorização do ser humano, responsabilidade, comprometimento e ética como pilares de cada ação que realizamos.",
+    texto: "Ética, respeito, inclusão, responsabilidade, educação, disciplina, cooperação, cidadania e compromisso social.",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function Home() {
           aria-hidden="true"
         />
 
-        {/* Número gigante de fundo — assinatura visual */}
+        {/* Número gigante de fundo */}
         <span
           className="font-display font-black absolute top-1/2 -translate-y-1/2 select-none pointer-events-none leading-none"
           style={{
@@ -56,7 +56,7 @@ export default function Home() {
           }}
           aria-hidden="true"
         >
-          22
+          24
         </span>
 
         {/* Faixa amarela vertical */}
@@ -179,7 +179,7 @@ export default function Home() {
             className="font-display font-semibold text-white leading-snug mb-8"
             style={{ fontSize: "clamp(20px, 3vw, 32px)" }}
           >
-            Há mais de 22 anos, a Legião Mirim de Bastos abre portas para jovens que precisam de uma chance. Nossa missão vai além de ensinar uma profissão — acreditamos que cada adolescente que passa por aqui leva consigo valores, confiança e um futuro mais digno.
+            Há mais de 24 anos, a Legião Mirim de Bastos abre portas para adolescentes que buscam uma oportunidade. Nossa missão vai além da formação profissional: acreditamos que cada jovem que passa por aqui leva consigo valores, confiança, autonomia e novas possibilidades para construir um futuro mais digno.
           </blockquote>
           <div className="flex items-center justify-center gap-3">
             <div className="w-10 h-px" style={{ backgroundColor: "var(--color-amarelo)" }} />
@@ -188,6 +188,27 @@ export default function Home() {
             </p>
             <div className="w-10 h-px" style={{ backgroundColor: "var(--color-amarelo)" }} />
           </div>
+        </div>
+      </section>
+
+      {/* ── MANTENEDOR ── */}
+      <section style={{ backgroundColor: "var(--color-azul-escuro)" }} className="py-16">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p
+            className="font-display font-bold text-xs tracking-[0.2em] uppercase mb-6"
+            style={{ color: "var(--color-amarelo)" }}
+          >
+            Mantenedor
+          </p>
+          <h2
+            className="font-display font-black text-white mb-6"
+            style={{ fontSize: "clamp(22px, 3.5vw, 40px)" }}
+          >
+            Por que o Lions Clube de Bastos Solidariedade<br />apoia esta causa há 24 anos?
+          </h2>
+          <p className="font-body text-white/70 leading-relaxed max-w-2xl mx-auto text-base">
+            Porque acredita que investir na juventude é investir no futuro da comunidade. O Lions Clube de Bastos Solidariedade mantém e fortalece a Legião Mirim de Bastos desde sua fundação em 2002, unindo esforços para garantir que cada adolescente da nossa cidade tenha acesso a formação, dignidade e oportunidade.
+          </p>
         </div>
       </section>
 
@@ -211,7 +232,7 @@ export default function Home() {
               O Programa de Aprendizagem Profissional da Legião Mirim capacita adolescentes e jovens com formação teórica e prática nas empresas parceiras, conforme as diretrizes do Ministério do Trabalho e Emprego.
             </p>
             <p className="font-body text-gray-600 leading-relaxed mb-8">
-              São 1.282 horas de formação, carteira assinada, direitos trabalhistas garantidos e a experiência real que abre portas.
+              São 1.282 horas de formação em 11 meses de contrato, com carteira assinada e direitos trabalhistas garantidos.
             </p>
             <Link
               href="/programa"
@@ -224,10 +245,10 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-4">
             {[
-              { icon: GraduationCap, tit: "Formação teórica", sub: "402 horas em sala de aula" },
-              { icon: Building2, tit: "Prática na empresa", sub: "880 horas com CTPS assinada" },
-              { icon: Users, tit: "13 cursos/CBO", sub: "Assistente, Almoxarife e mais" },
-              { icon: Heart, tit: "Inclusão social", sub: "Cidadania e valores éticos" },
+              { icon: GraduationCap, tit: "Formação teórica", sub: "402 horas na Legião Mirim de Bastos" },
+              { icon: Building2,    tit: "Prática na empresa", sub: "880 horas com CTPS assinada" },
+              { icon: Users,        tit: "4 Cursos/CBO", sub: "Assistente, Almoxarife e mais" },
+              { icon: Heart,        tit: "Inclusão social", sub: "Cidadania e valores éticos" },
             ].map(({ icon: Icon, tit, sub }) => (
               <div
                 key={tit}
@@ -243,6 +264,73 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── DESTAQUE TRANSPARÊNCIA E GALERIA ── */}
+      <section style={{ backgroundColor: "var(--color-cinza-claro)" }} className="py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <p
+            className="font-display font-bold text-xs tracking-[0.2em] uppercase mb-3 text-center"
+            style={{ color: "var(--color-azul)" }}
+          >
+            Acesso rápido
+          </p>
+          <h2
+            className="font-display font-black text-center mb-10"
+            style={{ fontSize: "clamp(24px, 3.5vw, 40px)", color: "var(--color-azul-escuro)" }}
+          >
+            Transparência e Galeria
+          </h2>
+          <div className="grid sm:grid-cols-2 gap-6">
+            <Link
+              href="/transparencia"
+              className="group flex items-start gap-5 p-8 rounded-sm border-2 bg-white hover:shadow-lg transition-all"
+              style={{ borderColor: "var(--color-azul)" }}
+            >
+              <div
+                className="w-14 h-14 rounded-sm flex items-center justify-center shrink-0"
+                style={{ backgroundColor: "var(--color-azul)" }}
+              >
+                <FileText size={26} className="text-white" />
+              </div>
+              <div>
+                <h3 className="font-display font-black text-xl mb-2 group-hover:underline" style={{ color: "var(--color-azul-escuro)" }}>
+                  Transparência
+                </h3>
+                <p className="font-body text-sm text-gray-500 leading-relaxed">
+                  Acesse nossos relatórios financeiros mensais, estatuto social, atas de eleição e convênios com o poder público.
+                </p>
+                <p className="font-display font-bold text-sm mt-3 flex items-center gap-1" style={{ color: "var(--color-azul)" }}>
+                  Ver documentos <ArrowRight size={14} />
+                </p>
+              </div>
+            </Link>
+
+            <Link
+              href="/galeria"
+              className="group flex items-start gap-5 p-8 rounded-sm border-2 bg-white hover:shadow-lg transition-all"
+              style={{ borderColor: "var(--color-amarelo)" }}
+            >
+              <div
+                className="w-14 h-14 rounded-sm flex items-center justify-center shrink-0"
+                style={{ backgroundColor: "var(--color-amarelo)" }}
+              >
+                <Image size={26} style={{ color: "var(--color-azul-escuro)" }} />
+              </div>
+              <div>
+                <h3 className="font-display font-black text-xl mb-2 group-hover:underline" style={{ color: "var(--color-azul-escuro)" }}>
+                  Galeria de Fotos
+                </h3>
+                <p className="font-body text-sm text-gray-500 leading-relaxed">
+                  Conheça nossa estrutura, salas de aula e os momentos que fazem parte do dia a dia da Legião Mirim.
+                </p>
+                <p className="font-display font-bold text-sm mt-3 flex items-center gap-1" style={{ color: "var(--color-azul)" }}>
+                  Ver fotos <ArrowRight size={14} />
+                </p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA FINAL ── */}
       <section style={{ backgroundColor: "var(--color-amarelo)" }} className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
@@ -252,10 +340,7 @@ export default function Home() {
           >
             Seu primeiro passo começa aqui.
           </h2>
-          <p
-            className="font-body mb-8 text-lg"
-            style={{ color: "var(--color-azul)" }}
-          >
+          <p className="font-body mb-8 text-lg" style={{ color: "var(--color-azul)" }}>
             Tem entre 15 e 24 anos? Venha conhecer o programa e garantir sua vaga.
           </p>
           <Link
