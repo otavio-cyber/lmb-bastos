@@ -5,12 +5,12 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const nav = [
-  { href: "/", label: "Início" },
-  { href: "/quem-somos", label: "Quem Somos" },
-  { href: "/programa", label: "Programa" },
-  { href: "/transparencia", label: "Transparência" },
-  { href: "/galeria", label: "Galeria" },
-  { href: "/contato", label: "Contato" },
+  { href: "/", label: "Início", destaque: false },
+  { href: "/quem-somos", label: "Quem Somos", destaque: false },
+  { href: "/programa", label: "Programa", destaque: false },
+  { href: "/transparencia", label: "Transparência", destaque: true },
+  { href: "/galeria", label: "Galeria", destaque: true },
+  { href: "/contato", label: "Contato", destaque: false },
 ];
 
 export default function Header() {
@@ -18,32 +18,48 @@ export default function Header() {
   return (
     <header style={{ backgroundColor: "var(--color-azul-escuro)" }} className="sticky top-0 z-50 shadow-lg">
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+
         {/* Logo + nome */}
         <Link href="/" className="flex items-center gap-3">
-  <Image
-    src="/lmb-logo.png"
-    alt="Logo Legião Mirim de Bastos"
-    width={44}
-    height={44}
-    className="rounded-full"
-    priority
-  />
-  <span className="font-display font-bold text-white text-lg leading-tight hidden sm:block">
-    Legião Mirim<br />
-    <span style={{ color: "var(--color-amarelo)" }}>de Bastos</span>
-  </span>
-</Link>
+          <Image
+            src="/lmb-logo.png"
+            alt="Logo Legião Mirim de Bastos"
+            width={44}
+            height={44}
+            className="rounded-full"
+            priority
+          />
+          <span className="font-display font-bold text-white text-lg leading-tight hidden sm:block">
+            Legião Mirim<br />
+            <span style={{ color: "var(--color-amarelo)" }}>de Bastos</span>
+          </span>
+        </Link>
 
         {/* Nav desktop */}
         <nav className="hidden md:flex items-center gap-1">
-          {nav.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className="px-3 py-1.5 text-sm font-body text-white/80 hover:text-white rounded transition-colors hover:bg-white/10"
-            >
-              {label}
-            </Link>
+          {nav.map(({ href, label, destaque }, i) => (
+            <div key={href} className="flex items-center">
+              {/* Divisor antes de Transparência */}
+              {i === 3 && (
+                <div className="w-px h-4 mx-2 bg-white/20" aria-hidden="true" />
+              )}
+              {/* Divisor depois de Galeria (antes de Contato) */}
+              {i === 5 && (
+                <div className="w-px h-4 mx-2 bg-white/20" aria-hidden="true" />
+              )}
+              <Link
+                href={href}
+                className="px-3 py-1.5 text-sm font-body rounded-sm transition-all hover:bg-white/10"
+                style={destaque ? {
+                  color: "var(--color-amarelo)",
+                  fontWeight: 700,
+                } : {
+                  color: "rgba(255,255,255,0.8)",
+                }}
+              >
+                {label}
+              </Link>
+            </div>
           ))}
           <Link
             href="/admin"
@@ -66,13 +82,25 @@ export default function Header() {
       {/* Mobile menu */}
       {open && (
         <nav style={{ backgroundColor: "var(--color-azul)" }} className="md:hidden px-4 pb-4 flex flex-col gap-1">
-          {nav.map(({ href, label }) => (
+          {nav.map(({ href, label, destaque }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setOpen(false)}
-              className="py-2.5 text-sm font-body text-white border-b border-white/10"
+              className="py-2.5 text-sm font-body border-b border-white/10 flex items-center gap-2"
+              style={destaque ? {
+                color: "var(--color-amarelo)",
+                fontWeight: 700,
+              } : {
+                color: "rgba(255,255,255,0.8)",
+              }}
             >
+              {destaque && (
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: "var(--color-amarelo)" }}
+                />
+              )}
               {label}
             </Link>
           ))}
