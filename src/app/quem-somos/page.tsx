@@ -109,7 +109,7 @@ export default function QuemSomos() {
           <h2 className="font-display font-black mb-2" style={{ fontSize: "clamp(24px, 4vw, 40px)", color: "var(--color-azul-escuro)" }}>
             Diretoria Executiva
           </h2>
-          <p className="font-body text-sm text-gray-500 mb-10">Gestão 2026 / 2027</p>
+          <p className="font-body text-sm text-gray-500 mb-10">Gestão 2024 / 2027</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {diretoria.map(({ cargo, nome }) => (
               <div
