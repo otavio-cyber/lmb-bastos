@@ -129,7 +129,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             <div className="shrink-0">
               <Image
-                src="/logo-lions.jpg"
+                src="/logo_lions.jpg"
                 alt="Lions Clube Internacional"
                 width={140}
                 height={140}
