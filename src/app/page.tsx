@@ -120,6 +120,39 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── GESTÃO / FOTO DIRETORIA ── */}
+      <section className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4">
+          <p className="font-display font-bold text-xs tracking-[0.2em] uppercase mb-8 text-center" style={{ color: "var(--color-azul)" }}>
+            Gestão 2024/2027
+          </p>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="rounded-sm overflow-hidden shadow-lg">
+              <Image
+                src="/diretoria.jpeg"
+                alt="Diretoria da Legião Mirim de Bastos — Gestão 2024/2027"
+                width={600}
+                height={750}
+                className="w-full object-cover"
+              />
+            </div>
+            <div className="space-y-5">
+              {[
+                { nome: "Magda Vieira dos Santos", cargo: "Diretora Presidente", obs: "Gestão 2024/2027 · Membro do Lions Clube de Bastos Solidariedade" },
+                { nome: "Alessandra de Oliveira Segura Pereira", cargo: "Diretora Tesoureira Geral", obs: "" },
+                { nome: "Cássia Tanaka", cargo: "Diretora Secretária Geral", obs: "" },
+              ].map(({ nome, cargo, obs }) => (
+                <div key={nome} className="border-l-4 pl-5" style={{ borderColor: "var(--color-amarelo)" }}>
+                  <p className="font-display font-black text-lg" style={{ color: "var(--color-azul-escuro)" }}>{nome}</p>
+                  <p className="font-body text-sm font-medium" style={{ color: "var(--color-azul)" }}>{cargo}</p>
+                  {obs && <p className="font-body text-xs text-gray-400 mt-0.5">{obs}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── MANTENEDOR ── */}
       <section style={{ backgroundColor: "var(--color-azul-escuro)" }} className="py-16">
         <div className="max-w-4xl mx-auto px-4">
