@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = { title: "Quem Somos | Legião Mirim de Bastos" };
 
 const diretoria = [
-  {
-    cargo: "Presidente",
-    nome: "Magda Vieira dos Santos",
-    detalhe: "Gestões 2024/2025 · 2025/2026 · 2026/2027",
-    obs: "Membro do Lions Clube de Bastos Solidariedade — Mantenedor",
-  },
-  { cargo: "1ª Diretora Presidente", nome: "Janaine Luiz Rosa Freitas Pereira Guanais" },
-  { cargo: "2ª Diretora Presidente", nome: "Alessandra de Oliveira Segura Pereira" },
-  { cargo: "Diretora Tesoureira", nome: "Cássia Tanaka" },
-  { cargo: "1ª Diretora Tesoureira", nome: "Karina Frederico da Silva" },
+  { cargo: "Diretora Presidente", nome: "Magda Vieira dos Santos" },
+  { cargo: "1ª Diretora Presidente", nome: "Janaine Luiz" },
+  { cargo: "2ª Diretora Presidente", nome: "Rosa Freitas Pereira Guanais" },
+  { cargo: "Diretora Tesoureira Geral", nome: "Alessandra de Oliveira Segura Pereira" },
+  { cargo: "1ª Diretora Tesoureira", nome: "Maria Silvania Batista de Almeida da Silva" },
+  { cargo: "2ª Diretora Tesoureira", nome: "Karina Frederico da Silva" },
+  { cargo: "Diretora Secretária Geral", nome: "Cássia Tanaka" },
   { cargo: "1º Diretor Secretário", nome: "Edilson Borghi" },
   { cargo: "2ª Diretora Secretária", nome: "Juliana Pereira Guanais Fernandes" },
 ];
@@ -66,6 +64,45 @@ export default function QuemSomos() {
         </div>
       </section>
 
+      {/* Palavra da Presidente + foto */}
+      <section style={{ backgroundColor: "var(--color-azul)" }} className="py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <p className="font-display font-bold text-xs tracking-[0.2em] uppercase mb-6 text-center" style={{ color: "var(--color-amarelo)" }}>
+            Palavra da Presidente
+          </p>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <span className="font-display font-black text-7xl block leading-none mb-4 opacity-20 text-white select-none" aria-hidden="true">"</span>
+              <blockquote className="font-display font-semibold text-white leading-snug mb-8" style={{ fontSize: "clamp(18px, 2.5vw, 26px)" }}>
+                Há mais de 24 anos, a Legião Mirim de Bastos abre portas para adolescentes que buscam uma oportunidade. Nossa missão vai além da formação profissional: acreditamos que cada jovem que passa por aqui leva consigo valores, confiança, autonomia e novas possibilidades para construir um futuro mais digno.
+              </blockquote>
+              <div style={{ borderTop: "1px solid rgba(245,200,0,0.3)" }} className="pt-5 space-y-1">
+                <p className="font-display font-bold text-base" style={{ color: "var(--color-amarelo)" }}>Magda Vieira dos Santos</p>
+                <p className="font-body text-sm text-white/60">Diretora Presidente · Gestão 2024/2027</p>
+                <p className="font-body text-xs text-white/40">Membro do Lions Clube de Bastos Solidariedade</p>
+              </div>
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }} className="pt-4 mt-4 space-y-1">
+                <p className="font-body text-sm text-white/80">Alessandra de Oliveira Segura Pereira</p>
+                <p className="font-body text-xs text-white/40">Diretora Tesoureira Geral</p>
+              </div>
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }} className="pt-4 mt-2 space-y-1">
+                <p className="font-body text-sm text-white/80">Cássia Tanaka</p>
+                <p className="font-body text-xs text-white/40">Diretora Secretária Geral</p>
+              </div>
+            </div>
+            <div className="rounded-sm overflow-hidden shadow-xl">
+              <Image
+                src="/diretoria.jpeg"
+                alt="Diretoria da Legião Mirim de Bastos — Gestão 2024/2027"
+                width={600}
+                height={750}
+                className="w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Diretoria */}
       <section style={{ backgroundColor: "var(--color-cinza-claro)" }} className="py-20">
         <div className="max-w-4xl mx-auto px-4">
@@ -74,20 +111,14 @@ export default function QuemSomos() {
           </h2>
           <p className="font-body text-sm text-gray-500 mb-10">Gestão 2026 / 2027</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {diretoria.map(({ cargo, nome, detalhe, obs }) => (
+            {diretoria.map(({ cargo, nome }) => (
               <div
                 key={nome}
-                className={`bg-white rounded-sm p-5 flex flex-col gap-1 border-l-4 ${detalhe ? 'sm:col-span-2' : ''}`}
+                className="bg-white rounded-sm p-5 flex flex-col gap-1 border-l-4"
                 style={{ borderColor: "var(--color-azul)" }}
               >
                 <p className="font-body text-xs text-gray-400 uppercase tracking-wide">{cargo}</p>
                 <p className="font-display font-bold text-base" style={{ color: "var(--color-azul-escuro)" }}>{nome}</p>
-                {detalhe && (
-                  <p className="font-body text-xs mt-1" style={{ color: "var(--color-azul)" }}>{detalhe}</p>
-                )}
-                {obs && (
-                  <p className="font-body text-xs text-gray-400 italic">{obs}</p>
-                )}
               </div>
             ))}
           </div>

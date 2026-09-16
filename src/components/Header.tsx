@@ -8,6 +8,7 @@ const nav = [
   { href: "/", label: "Início", destaque: false },
   { href: "/quem-somos", label: "Quem Somos", destaque: false },
   { href: "/programa", label: "Programa", destaque: false },
+  { href: "/contrate-um-aprendiz", label: "Para Empresas", destaque: false },
   { href: "/transparencia", label: "Transparência", destaque: true },
   { href: "/galeria", label: "Galeria", destaque: true },
   { href: "/contato", label: "Contato", destaque: false },
@@ -40,11 +41,11 @@ export default function Header() {
           {nav.map(({ href, label, destaque }, i) => (
             <div key={href} className="flex items-center">
               {/* Divisor antes de Transparência */}
-              {i === 3 && (
+              {i === 4 && (
                 <div className="w-px h-4 mx-2 bg-white/20" aria-hidden="true" />
               )}
               {/* Divisor depois de Galeria (antes de Contato) */}
-              {i === 5 && (
+              {i === 6 && (
                 <div className="w-px h-4 mx-2 bg-white/20" aria-hidden="true" />
               )}
               <Link
@@ -96,10 +97,7 @@ export default function Header() {
               }}
             >
               {destaque && (
-                <span
-                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{ backgroundColor: "var(--color-amarelo)" }}
-                />
+                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: "var(--color-amarelo)" }} />
               )}
               {label}
             </Link>
