@@ -85,7 +85,7 @@ export default function Contato() {
           <h2 className="font-display font-black text-xl mb-6" style={{ color: "var(--color-azul-escuro)" }}>Horário de funcionamento</h2>
           <div className="grid sm:grid-cols-2 gap-4 max-w-md">
             {[
-              { dia: "Segunda a Sexta", hora: "08h00 às 17h00" },
+              { dia: "Segunda a Sexta", hora: "07h às 16h30" },
               { dia: "Sábado e Domingo", hora: "Fechado" },
             ].map(({ dia, hora }) => (
               <div key={dia} className="bg-white rounded-sm p-4">
