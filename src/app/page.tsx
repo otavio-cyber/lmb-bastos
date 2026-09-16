@@ -106,46 +106,46 @@ export default function Home() {
       </section>
 
       {/* ── PRESIDENTE + GESTÃO + FOTO ── */}
-<section style={{ backgroundColor: "var(--color-azul)" }} className="py-20">
-  <div className="max-w-5xl mx-auto px-4">
-    <p className="font-display font-bold text-xs tracking-[0.2em] uppercase mb-8 text-center" style={{ color: "var(--color-amarelo)" }}>
-      Gestão 2024/2027
-    </p>
-    <div className="grid md:grid-cols-2 gap-12 items-center">
-      {/* Foto — coluna esquerda */}
-      <div className="rounded-sm overflow-hidden shadow-xl">
-        <Image
-          src="/diretoria.jpeg"
-          alt="Diretoria da Legião Mirim de Bastos — Gestão 2024/2027"
-          width={600}
-          height={750}
-          className="w-full object-cover"
-        />
-      </div>
-
-      {/* Frase + nomes — coluna direita */}
-      <div>
-        <span className="font-display font-black text-7xl block leading-none mb-4 opacity-20 text-white select-none" aria-hidden="true">"</span>
-        <blockquote className="font-display font-semibold text-white leading-snug mb-10" style={{ fontSize: "clamp(18px, 2.5vw, 26px)" }}>
-          Há mais de 24 anos, a Legião Mirim de Bastos abre portas para adolescentes que buscam uma oportunidade. Nossa missão vai além da formação profissional: acreditamos que cada jovem que passa por aqui leva consigo valores, confiança, autonomia e novas possibilidades para construir um futuro mais digno.
-        </blockquote>
-        <div className="space-y-5">
-          {[
-            { nome: "Magda Vieira dos Santos", cargo: "Diretora Presidente", obs: "Membro do Lions Clube de Bastos Solidariedade" },
-            { nome: "Alessandra de Oliveira Segura Pereira", cargo: "Diretora Tesoureira Geral", obs: "" },
-            { nome: "Cássia Tanaka", cargo: "Diretora Secretária Geral", obs: "" },
-          ].map(({ nome, cargo, obs }) => (
-            <div key={nome} className="border-l-4 pl-5" style={{ borderColor: "var(--color-amarelo)" }}>
-              <p className="font-display font-black text-base text-white">{nome}</p>
-              <p className="font-body text-sm" style={{ color: "var(--color-amarelo)" }}>{cargo}</p>
-              {obs && <p className="font-body text-xs text-white/40 mt-0.5">{obs}</p>}
+      <section style={{ backgroundColor: "var(--color-azul)" }} className="py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <p className="font-display font-bold text-xs tracking-[0.2em] uppercase mb-8 text-center" style={{ color: "var(--color-amarelo)" }}>
+            Gestão 2024/2027
+          </p>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Foto — coluna esquerda */}
+            <div className="rounded-sm overflow-hidden shadow-xl">
+              <Image
+                src="/diretoria.jpeg"
+                alt="Diretoria da Legião Mirim de Bastos — Gestão 2024/2027"
+                width={600}
+                height={750}
+                className="w-full object-cover"
+              />
             </div>
-          ))}
+
+            {/* Frase + nomes — coluna direita */}
+            <div>
+              <span className="font-display font-black text-7xl block leading-none mb-4 opacity-20 text-white select-none" aria-hidden="true">"</span>
+              <blockquote className="font-display font-semibold text-white leading-snug mb-10" style={{ fontSize: "clamp(18px, 2.5vw, 26px)" }}>
+                Há mais de 24 anos, a Legião Mirim de Bastos abre portas para adolescentes que buscam uma oportunidade. Nossa missão vai além da formação profissional: acreditamos que cada jovem que passa por aqui leva consigo valores, confiança, autonomia e novas possibilidades para construir um futuro mais digno.
+              </blockquote>
+              <div className="space-y-5">
+                {[
+                  { nome: "Magda Vieira dos Santos", cargo: "Diretora Presidente", obs: "Membro do Lions Clube de Bastos Solidariedade" },
+                  { nome: "Alessandra de Oliveira Segura Pereira", cargo: "Diretora Tesoureira Geral", obs: "Membro do Lions Clube de Bastos Solidariedade" },
+                  { nome: "Cássia Tanaka", cargo: "Diretora Secretária Geral", obs: "Membro do Lions Clube de Bastos Solidariedade" },
+                ].map(({ nome, cargo, obs }) => (
+                  <div key={nome} className="border-l-4 pl-5" style={{ borderColor: "var(--color-amarelo)" }}>
+                    <p className="font-display font-black text-base text-white">{nome}</p>
+                    <p className="font-body text-sm" style={{ color: "var(--color-amarelo)" }}>{cargo}</p>
+                    {obs && <p className="font-body text-xs text-white/40 mt-0.5">{obs}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ── MANTENEDOR ── */}
       <section style={{ backgroundColor: "var(--color-azul-escuro)" }} className="py-16">
