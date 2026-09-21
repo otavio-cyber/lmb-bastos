@@ -183,13 +183,21 @@ export default function Admin() {
   // ── Galeria ──
   async function criarAlbum(e: React.FormEvent) {
     e.preventDefault();
-    if (!novoAlbum) return;
-    await fetch("/api/galeria/album", {
+    if (!novoAlbum.trim()) return;
+    const res = await fetch("/api/galeria/album", {
       method: "POST",
-      body: JSON.stringify({ nome: novoAlbum }),
+      body: JSON.stringify({ nome: novoAlbum.trim() }),
       headers: { "Content-Type": "application/json" }
     });
-    setNovoAlbum(""); showToast("Álbum criado!"); loadAlbuns();
+    if (res.ok) {
+      const data = await res.json();
+      setNovoAlbum("");
+      showToast("Álbum criado!");
+      await loadAlbuns();
+      if (data?.id) setAlbumSelecionado(data.id);
+    } else {
+      showToast("Erro ao criar álbum.", "erro");
+    }
   }
 
   async function uploadFotos(e: React.FormEvent) {
@@ -475,15 +483,31 @@ export default function Admin() {
                   <label className="font-body text-xs text-gray-500 block mb-1">
                     Selecione as fotos * — segure <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Ctrl</kbd> ou <kbd className="px-1 py-0.5 bg-gray-100 rounded text-xs">Shift</kbd> para selecionar várias
                   </label>
-                  <input
-                    ref={fotoRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    multiple
-                    onChange={e => setFotoFiles(Array.from(e.target.files || []))}
-                    required
-                    className="w-full text-sm font-body text-gray-500 cursor-pointer"
-                  />
+                  <label
+                    className="flex flex-col items-center justify-center w-full h-32 rounded-sm border-2 border-dashed cursor-pointer transition-colors hover:bg-blue-50"
+                    style={{ borderColor: "var(--color-azul)" }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mb-2" style={{ color: "var(--color-azul)" }}>
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <span className="font-display font-bold text-sm" style={{ color: "var(--color-azul)" }}>
+                      {fotoFiles.length > 0 ? `${fotoFiles.length} foto(s) selecionada(s)` : "Clique para selecionar fotos"}
+                    </span>
+                    <span className="font-body text-xs text-gray-400 mt-1">
+                      ou arraste e solte aqui · JPG, PNG, WEBP
+                    </span>
+                    <input
+                      ref={fotoRef}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      multiple
+                      onChange={e => setFotoFiles(Array.from(e.target.files || []))}
+                      required
+                      className="hidden"
+                    />
+                  </label>
                   {fotoFiles.length > 0 && (
                     <p className="font-body text-xs text-gray-400 mt-1">
                       {fotoFiles.length} foto{fotoFiles.length > 1 ? "s" : ""} selecionada{fotoFiles.length > 1 ? "s" : ""} · {(fotoFiles.reduce((a, f) => a + f.size, 0) / 1024 / 1024).toFixed(1)}MB total
