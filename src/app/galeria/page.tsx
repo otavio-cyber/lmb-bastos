@@ -17,9 +17,7 @@ export default function Galeria() {
       .then((data: Album[]) => {
         setAlbuns(data);
         const estado: Record<string, boolean> = {};
-        data.forEach((a: Album) => {
-          estado[a.id] = false;
-        });
+        data.forEach((a: Album) => { estado[a.id] = false; });
         setExpandidos(estado);
         setLoading(false);
       })
@@ -32,7 +30,6 @@ export default function Galeria() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Hero */}
       <section className="bg-[#1A3A5C] text-white py-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-3">Galeria</h1>
@@ -42,12 +39,9 @@ export default function Galeria() {
         </div>
       </section>
 
-      {/* Content */}
       <section className="max-w-6xl mx-auto px-4 py-12">
         {loading && (
-          <div className="text-center text-gray-400 py-20">
-            Carregando álbuns...
-          </div>
+          <div className="text-center text-gray-400 py-20">Carregando álbuns...</div>
         )}
 
         {!loading && albuns.length === 0 && (
@@ -60,48 +54,31 @@ export default function Galeria() {
         {!loading && albuns.length > 0 && (
           <div className="space-y-4">
             {albuns.map((album) => (
-              <div
-                key={album.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
-              >
-                {/* Album header — clickable */}
+              <div key={album.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <button
                   onClick={() => toggle(album.id)}
                   className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <ImageIcon size={20} className="text-[#1A3A5C]" />
-                    <span className="font-semibold text-[#1A3A5C] text-lg">
-                      {album.nome}
-                    </span>
+                    <span className="font-semibold text-[#1A3A5C] text-lg">{album.nome}</span>
                     <span className="text-sm text-gray-400 font-normal">
-                      ({album.fotos.length}{" "}
-                      {album.fotos.length === 1 ? "foto" : "fotos"})
+                      ({album.fotos.length} {album.fotos.length === 1 ? "foto" : "fotos"})
                     </span>
                   </div>
                   <div className="text-[#1A3A5C]">
-                    {expandidos[album.id] ? (
-                      <ChevronUp size={22} />
-                    ) : (
-                      <ChevronDown size={22} />
-                    )}
+                    {expandidos[album.id] ? <ChevronUp size={22} /> : <ChevronDown size={22} />}
                   </div>
                 </button>
 
-                {/* Photo grid — only when expanded */}
                 {expandidos[album.id] && (
                   <div className="px-6 pb-6">
                     {album.fotos.length === 0 ? (
-                      <p className="text-gray-400 text-sm py-4">
-                        Nenhuma foto neste álbum ainda.
-                      </p>
+                      <p className="text-gray-400 text-sm py-4">Nenhuma foto neste álbum ainda.</p>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-2">
                         {album.fotos.map((foto) => (
-                          <div
-                            key={foto.id}
-                            className="aspect-square relative rounded-lg overflow-hidden bg-gray-100"
-                          >
+                          <div key={foto.id} className="aspect-square relative rounded-lg overflow-hidden bg-gray-100">
                             <Image
                               src={`/api/files/fotos/${foto.filename}`}
                               alt={foto.nome || album.nome}
