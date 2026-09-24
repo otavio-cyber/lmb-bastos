@@ -1,77 +1,125 @@
-import type { Metadata } from "next";
-import pool, { initDb } from "@/lib/db";
+"use client";
+import { useState, useEffect } from "react";
+import { ChevronDown, ChevronUp, ImageIcon } from "lucide-react";
+import Image from "next/image";
 
-export const metadata: Metadata = { title: "Galeria | Legião Mirim de Bastos" };
-export const revalidate = 60;
+type Foto = { id: string; nome: string; filename: string; album_id: string };
+type Album = { id: string; nome: string; fotos: Foto[] };
 
-async function getAlbuns() {
-  try {
-    await initDb();
-    const albuns = await pool.query("SELECT * FROM albuns ORDER BY created_at ASC");
-    const fotos = await pool.query("SELECT * FROM fotos ORDER BY created_at DESC");
-    return albuns.rows.map((a: { id: string; nome: string }) => ({
-      ...a,
-      fotos: fotos.rows.filter((f: { album_id: string }) => f.album_id === a.id),
-    }));
-  } catch {
-    return [];
+export default function Galeria() {
+  const [albuns, setAlbuns] = useState<Album[]>([]);
+  const [expandidos, setExpandidos] = useState<Record<string, boolean>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/galeria")
+      .then((r) => r.json())
+      .then((data: Album[]) => {
+        setAlbuns(data);
+        const estado: Record<string, boolean> = {};
+        data.forEach((a: Album) => {
+          estado[a.id] = false;
+        });
+        setExpandidos(estado);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  function toggle(id: string) {
+    setExpandidos((prev) => ({ ...prev, [id]: !prev[id] }));
   }
-}
-
-export default async function Galeria() {
-  const albuns = await getAlbuns();
 
   return (
-    <>
-      <section style={{ backgroundColor: "var(--color-azul-escuro)" }} className="py-16 px-4 relative overflow-hidden">
-        <div className="absolute left-0 top-0 bottom-0 w-2" style={{ backgroundColor: "var(--color-amarelo)" }} aria-hidden="true" />
-        <div className="max-w-4xl mx-auto pl-6">
-          <p className="font-display font-semibold text-xs tracking-[0.2em] uppercase mb-3" style={{ color: "var(--color-amarelo)" }}>Fotos e momentos</p>
-          <h1 className="font-display font-black text-white leading-tight" style={{ fontSize: "clamp(36px, 6vw, 72px)" }}>Galeria</h1>
+    <main className="min-h-screen bg-gray-50">
+      {/* Hero */}
+      <section className="bg-[#1A3A5C] text-white py-16">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h1 className="text-4xl font-bold mb-3">Galeria</h1>
+          <p className="text-white/70 text-lg">
+            Momentos e atividades da Legião Mirim de Bastos
+          </p>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4 space-y-16">
-          {albuns.length === 0 && (
-            <p className="text-center font-body text-gray-400 py-16">Nenhuma foto publicada ainda.</p>
-          )}
-          {albuns.map((album: { id: string; nome: string; fotos: { id: string; nome: string; filename: string; album_id: string }[] }) => (
-            <div key={album.id}>
-              <h2 className="font-display font-black text-2xl mb-6" style={{ color: "var(--color-azul-escuro)" }}>
-                {album.nome}
-                <span className="font-body font-normal text-sm text-gray-400 ml-3">{album.fotos.length} foto{album.fotos.length !== 1 ? "s" : ""}</span>
-              </h2>
+      {/* Content */}
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        {loading && (
+          <div className="text-center text-gray-400 py-20">
+            Carregando álbuns...
+          </div>
+        )}
 
-              {album.fotos.length === 0 ? (
-                <p className="font-body text-sm text-gray-400">Nenhuma foto neste álbum ainda.</p>
-              ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {album.fotos.map((f) => (
-                    <a
-                      key={f.id}
-                      href={`/api/files/galeria/${f.album_id}/${f.filename}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group relative rounded-sm overflow-hidden border border-gray-100 hover:shadow-md transition-shadow"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`/api/files/galeria/${f.album_id}/${f.filename}`}
-                        alt={f.nome}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        <p className="font-body text-xs text-white truncate">{f.nome}</p>
+        {!loading && albuns.length === 0 && (
+          <div className="text-center text-gray-400 py-20">
+            <ImageIcon className="mx-auto mb-3 opacity-30" size={48} />
+            <p>Nenhum álbum disponível no momento.</p>
+          </div>
+        )}
+
+        {!loading && albuns.length > 0 && (
+          <div className="space-y-4">
+            {albuns.map((album) => (
+              <div
+                key={album.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+              >
+                {/* Album header — clickable */}
+                <button
+                  onClick={() => toggle(album.id)}
+                  className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <ImageIcon size={20} className="text-[#1A3A5C]" />
+                    <span className="font-semibold text-[#1A3A5C] text-lg">
+                      {album.nome}
+                    </span>
+                    <span className="text-sm text-gray-400 font-normal">
+                      ({album.fotos.length}{" "}
+                      {album.fotos.length === 1 ? "foto" : "fotos"})
+                    </span>
+                  </div>
+                  <div className="text-[#1A3A5C]">
+                    {expandidos[album.id] ? (
+                      <ChevronUp size={22} />
+                    ) : (
+                      <ChevronDown size={22} />
+                    )}
+                  </div>
+                </button>
+
+                {/* Photo grid — only when expanded */}
+                {expandidos[album.id] && (
+                  <div className="px-6 pb-6">
+                    {album.fotos.length === 0 ? (
+                      <p className="text-gray-400 text-sm py-4">
+                        Nenhuma foto neste álbum ainda.
+                      </p>
+                    ) : (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-2">
+                        {album.fotos.map((foto) => (
+                          <div
+                            key={foto.id}
+                            className="aspect-square relative rounded-lg overflow-hidden bg-gray-100"
+                          >
+                            <Image
+                              src={`/api/files/fotos/${foto.filename}`}
+                              alt={foto.nome || album.nome}
+                              fill
+                              className="object-cover hover:scale-105 transition-transform duration-300"
+                              sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                            />
+                          </div>
+                        ))}
                       </div>
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </section>
-    </>
+    </main>
   );
 }
