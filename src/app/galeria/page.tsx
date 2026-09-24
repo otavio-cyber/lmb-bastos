@@ -80,8 +80,7 @@ export default function Galeria() {
                         {album.fotos.map((foto) => (
                           <div key={foto.id} className="aspect-square relative rounded-lg overflow-hidden bg-gray-100">
                             <Image
-                              src={`/api/files/fotos/${foto.filename}`}
-                              alt={foto.nome || album.nome}
+                              src={`/api/files/galeria/${foto.album_id}/${foto.filename}`} alt={foto.nome || album.nome}
                               fill
                               className="object-cover hover:scale-105 transition-transform duration-300"
                               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
