@@ -200,6 +200,21 @@ export default function Admin() {
     }
   }
 
+  async function excluirAlbum(id: string, nome: string, total: number) {
+    const msg = total > 0
+      ? `O álbum "${nome}" tem ${total} foto${total > 1 ? "s" : ""}. Deseja excluir tudo mesmo assim?`
+      : `Excluir o álbum "${nome}"?`;
+    if (!confirm(msg)) return;
+    const res = await fetch(`/api/galeria/album/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      showToast("Álbum excluído.");
+      if (albumSelecionado === id) setAlbumSelecionado("");
+      loadAlbuns();
+    } else {
+      showToast("Erro ao excluir álbum.", "erro");
+    }
+  }
+
   async function uploadFotos(e: React.FormEvent) {
     e.preventDefault();
     if (!fotoFiles.length || !albumSelecionado) return;
@@ -451,14 +466,23 @@ export default function Admin() {
               <h2 className="font-display font-black text-lg mb-4" style={{ color: "var(--color-azul-escuro)" }}>Álbuns</h2>
               <div className="flex flex-wrap gap-2 mb-4">
                 {albuns.map(a => (
-                  <button key={a.id} onClick={() => setAlbumSelecionado(a.id)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-sm text-sm font-display font-bold transition-all"
-                    style={albumSelecionado === a.id
-                      ? { backgroundColor: "var(--color-azul)", color: "white" }
-                      : { backgroundColor: "var(--color-cinza-claro)", color: "var(--color-azul-escuro)" }}>
-                    <FolderOpen size={14} /> {a.nome}
-                    <span className="opacity-60 text-xs">({a.fotos.length})</span>
-                  </button>
+                  <div key={a.id} className="flex items-center gap-1">
+                    <button onClick={() => setAlbumSelecionado(a.id)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-sm text-sm font-display font-bold transition-all"
+                      style={albumSelecionado === a.id
+                        ? { backgroundColor: "var(--color-azul)", color: "white" }
+                        : { backgroundColor: "var(--color-cinza-claro)", color: "var(--color-azul-escuro)" }}>
+                      <FolderOpen size={14} /> {a.nome}
+                      <span className="opacity-60 text-xs">({a.fotos.length})</span>
+                    </button>
+                    <button
+                      onClick={() => excluirAlbum(a.id, a.nome, a.fotos.length)}
+                      className="p-1.5 text-gray-400 hover:text-red-500 transition-colors"
+                      title="Excluir álbum"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 ))}
               </div>
               <form onSubmit={criarAlbum} className="flex gap-2">
